@@ -4,6 +4,7 @@ import pickle
 import time
 from copy import deepcopy
 
+
 import gplearn.fitness
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,7 +50,7 @@ def plotFunc2():
     u = np.linspace(0, 1, 400)
     v = u
     U, V = np.meshgrid(u, v)
-    sns.set()
+    sns.set(style="whitegrid")
     t1,t2,t3,Y = func12(a=U,b=V,c=u,d=u)
     fig = plt.figure(1)
     ax1 = plt.axes(projection='3d')
@@ -180,19 +181,87 @@ def x_bins(dim):
     plt.show()
     #input()
 
+def plot_gpmodeldata(diruri):
+    from os import listdir
+    from os.path import isfile, join
+    func = "f2"
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and func in f]
+    onlyfiles.sort()
+    est_gp_pickles = []
+    for gpmodel in onlyfiles:
+        print(gpmodel)
+        with open(diruri + gpmodel, 'rb') as f:
+            est_gp = pickle.load(f)
+            est_gp_pickles.append(est_gp)
+    
+    """dfframes = []
+    for gppickle in est_gp_pickles:
+        df = pd.DataFrame(gppickle.run_details_["best_fitness"], columns=["Fitness"])
+        dfframes.append(df)
 
-def plot_paretofronts():
-    with open('runs/live/crossruns/gpmodels/f1_n2000_python__pgp_kom_tour____0_gp_model.pkl', 'rb') as f:
-        est_gp = pickle.load(f)
+    df = pd.concat(dfframes, axis=1, ignore_index=False)
+    #df = df.reset_index()
+    df.columns = ["PGP Kommenda", "PGP Length"]
+    print(df)
+    #ax = df.plot(x='Crossover', kind='line', style=['-', '--', '-.', '.-'], legend=False, xticks=[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
+    ax = df.plot(kind='line', style=['-', '--', '-.', '.-'], logy=True)
+    ax.set_xlabel("Generation")
+    ax.set_ylabel("RMSE")
 
-    gensteps = 250
-    fronts = est_gp._paretofronts
-    for i in range(0, len(fronts), gensteps):
-        front_raw = [[prg.raw_fitness_, prg.complexity_] for prg in fronts[i]]      
-        plt.scatter(*zip(*front_raw))
-        plt.axis([0, 0.2, 0, 200])
-        plt.title('Gen ' + str(i))
-        plt.show("test")
+    fig = ax.get_figure()
+    plt.savefig("plotting/plots/generations_f1.PNG", dpi=500)
+    plt.show()"""
+    
+    index = 1
+    gensteps = [0,25,150,800,1249]
+    fronts_raw = []
+    fronts = est_gp_pickles[index]._paretofronts
+    for i in gensteps:
+        for prg in fronts[i]:
+            fronts_raw.append([prg.raw_fitness_, prg.complexity_, i])
+    complexity = ("Kommenda" if index == 0 else "Length")
+    df = pd.DataFrame(fronts_raw, columns=["RMSE", complexity, "Generation"])
+
+    #ax = sns.scatterplot(x="Fitness", y="Complexity", style="Generation", data=df, alpha=0.7, legend="brief")
+    g = sns.lmplot(x="RMSE", y=complexity, data=df, hue='Generation', fit_reg=False, markers=['*', 'x', '+', '1', 'o'], legend=False, height=4, aspect=1.3)
+    #g = g.set(xlim=(1e-02 * 0.9, 3))    # f1 kommenda, length
+    #g = g.set(ylim=(1, 10e06*0.5))      # f1 kommenda
+    plt.xscale('log')
+    plt.yscale('log')
+    if func == "f2":
+        plt.legend(loc='best')
+    plt.savefig("plotting/plots/" + func + "_pgp_" + complexity + "_fronts.PNG", dpi=500)
+    plt.show()
+
+    
+
+def plot_csvruns():
+    diruri = "/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/medians/CSV/"
+    func = "f1"
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and func in f]
+    onlyfiles.sort()
+    dframes = []
+    for p in onlyfiles:
+        print(p)
+        df = pd.read_csv(diruri + p)
+        df.columns = ["Gen", "LengthA",  "KommendaA",   "FitnessA",   "LengthB",  "KommendaB",  "FitnessB",   "Time Left",  "Front Size"]
+        dframes.append(df["FitnessB"])
+
+    df = pd.concat(dframes, axis=1, ignore_index=False)
+    #df = df.reset_index()
+    df.columns = ["EplexGP", "StandardGP", "PGP Kommenda", "PGP Length"]
+    print(df)
+    #ax = df.plot(x='Crossover', kind='line', style=['-', '--', '-.', '.-'], legend=False, xticks=[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
+    ylim = (0.0079,0.11) if func == "f1" else (0.016,0.4)
+    ax = df.plot(kind='line', style=['-', '--', ':', '-.'], logy=True, xlim=(0,1250), ylim = ylim, figsize=(10, 4))    #6.4, 4,8
+    ax.set_xlabel("Generation")
+    ax.set_ylabel("RMSE")
+
+    plt.savefig("plotting/plots/generations_f2.PNG", dpi=500)
+    plt.show()
+
 
 
 def boxplots(filename):
@@ -218,7 +287,6 @@ def boxplots(filename):
             #xticklabels=['1e-08', '2e-08', '3e-08', '4e-08', '5e-08', '6e-08', '7e-08', '8e-08', '9e-08', '1e-07'])
 
     plt.show()
-
 
 def significancetest(diruri, testsize, num_files, row_desc):
     # testsize = number of seperate tests to do
@@ -282,7 +350,6 @@ def significancetest(diruri, testsize, num_files, row_desc):
             for k in range(testresult.shape[1]):
                 x = files_data[best_file][:,k]
                 y = files_data[i][:,k]
-
                 if i != best_file:
                     _,pvalue = sp.stats.mannwhitneyu(x,y,alternative='two-sided')
                     testresult[i][k] = pvalue
@@ -330,6 +397,281 @@ def significancetest(diruri, testsize, num_files, row_desc):
     print(x_str)
     print("\n\n")
 
+
+def signigicancetestpandas(diruri, testsize, num_files, row_desc, columnsToTest, reverse):
+    # testsize = number of seperate tests to do
+    # num_files = files per test
+    # row_desc = list of the numbers representing the paramter (do not set to string/char)
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and ('f1_n2000' in f or 'f2_alt' in f)] #and ('pc1.0' in f or 'pc0.0' in f)]
+    onlyfiles.sort(reverse=reverse)
+    for f in onlyfiles:
+        print(f)
+    fileslength = len(onlyfiles)/testsize
+    print(onlyfiles)
+    if num_files != fileslength:
+        raise Exception('Wrong number of num_files or the testsize! ' + str(num_files) + ' vs ' + str(fileslength))
+    dframes = []
+    testResults = []
+    for _ in range(testsize):
+        file_lists = []
+        files = []
+        for _ in range(int(fileslength)):
+            k = onlyfiles.pop()
+            print(k)
+            files.append(k)
+        file_lists.append(files)
+        filesData = []
+        myList = []
+        for p in files:
+            df = pd.read_csv(diruri + p, header=None)
+            df.columns = ["R2@TRain","R2@Test","RMSE@Train","RMSE@Test","Length", "Kommenda"]
+            filesData.append(df[columnsToTest])
+            df = df[columnsToTest].sort_values(by=[columnsToTest[0]])
+            df = df.reset_index(drop=True)
+            rmse = df[columnsToTest[0]].median(axis=0)
+            Q1 = df[columnsToTest[0]].quantile(0.25)
+            Q3 = df[columnsToTest[0]].quantile(0.75)
+            rmseIQR = Q3 - Q1
+
+            length = df[columnsToTest[1]].median(axis=0)    #df["Length"][15]
+            Q1 = df[columnsToTest[1]].quantile(0.25)
+            Q3 = df[columnsToTest[1]].quantile(0.75)
+            lengthIQR = Q3 - Q1
+            #print("rmse:{:<8.4f}  length:{:<8.0f}".format(rmse, length))
+            myList.append([rmse, rmseIQR, length, lengthIQR])
+        df = pd.DataFrame(myList, columns=[columnsToTest[0], "IQRa", columnsToTest[1], "IQRb"])
+        #print(df)
+        dframes.append(df)
+        
+        # significance test
+        curTestResults = []
+        if 'R2' in columnsToTest[0]:
+            bestIdx = df[columnsToTest[0]].idxmax(axis=1)
+        else:
+            bestIdx = df[columnsToTest[0]].idxmin(axis=1)
+        for row in range(0, len(myList)): # row
+            rowResults = []
+            if row == bestIdx:
+                continue
+            dfBest = filesData[bestIdx]
+            dfRow = filesData[row]
+            for col in range(0, 2): # column
+                _,pvalue = sp.stats.mannwhitneyu(dfBest.iloc[:,col], dfRow.iloc[:,col], alternative='two-sided')
+                rowResults.append(pvalue)
+            curTestResults.append(rowResults)
+        curTestResults = np.array(curTestResults)
+        # holm-bonferri correction for multiple significance tests
+        #for col in range(0, 2): # column
+            #_, curTestResults[:,col] ,_ ,_ = multipletests(curTestResults[:,col], alpha=0.05, method='holm')
+        
+        testdf = pd.DataFrame(curTestResults, columns=columnsToTest)
+        testResults.append(testdf)   #[["RMSE@Test", "Length"]])
+
+    df = pd.concat(dframes, axis=1, ignore_index=False)
+    print(df)
+    #print(df[["RMSE@Test", "IQRa"]])
+
+    print("\n\nSignificance Test Result:")
+    for result in testResults:
+        print(result)
+
+    print("\n\n")
+    for i, k in enumerate(row_desc):
+        rowstring = "\multicolumn{1}{ |c|}{"
+        if isinstance(k, str):
+            rowstring = rowstring + "\small{" + k + "}}"
+        else:
+            rowstring = rowstring + "{:0.1f}".format(k) + "}"
+
+        for j, frames in enumerate(dframes):
+            
+            if 'R2' in columnsToTest[0]:
+                bestIdx = frames[columnsToTest[0]].idxmax(axis=1)
+            else:
+                bestIdx = frames[columnsToTest[0]].idxmin(axis=1)
+                
+            toAdd = "{:0.4f}".format(frames[columnsToTest[0]][i])[1:]
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+            elif testResults[j][columnsToTest[0]][i-1 if i > bestIdx else i] < 1e-02:
+                toAdd =  toAdd + " *"
+            else:
+                toAdd =  toAdd + "\hphantom{ *}"
+            rowstring = rowstring + " & " + toAdd
+
+            toAdd = "{:<0.4f}".format(frames["IQRa"][i])[1:]
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}"
+            rowstring = rowstring + " & " + toAdd
+
+            toAdd = "{:0.0f}".format(frames[columnsToTest[1]][i])
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+            elif testResults[j][columnsToTest[1]][i-1 if i > bestIdx else i] < 1e-02:
+                toAdd =  toAdd + " *"
+            else:
+                toAdd =  toAdd + "\hphantom{ *}"
+            rowstring = rowstring + " & " + toAdd
+
+            toAdd = "{:<0.1f}".format(frames["IQRb"][i])
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}"
+            rowstring = rowstring + " & " + toAdd
+
+
+        rowstring = rowstring + "\\\\"
+        print(rowstring)
+
+
+def signigicancetestpandas2(diruri, testsize, num_files, row_desc, columnsToTest, reverse):
+    # testsize = number of seperate tests to do
+    # num_files = files per test
+    # row_desc = list of the numbers representing the paramter (do not set to string/char)
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and '5p' in f] #and ('pc1.0' in f or 'pc0.0' in f)]
+    onlyfiles.sort(reverse=reverse)
+    for f in onlyfiles:
+        print(f)
+    fileslength = len(onlyfiles)/testsize
+    print(onlyfiles)
+    if num_files != fileslength:
+        raise Exception('Wrong number of num_files or the testsize! ' + str(num_files) + ' vs ' + str(fileslength))
+    dframes = []
+    testResults = []
+    for _ in range(testsize):
+        file_lists = []
+        files = []
+        for _ in range(int(fileslength)):
+            k = onlyfiles.pop()
+            print(k)
+            files.append(k)
+        file_lists.append(files)
+        filesData = []
+        myList = []
+        for p in files:
+            df = pd.read_csv(diruri + p, header=None)
+            df.columns = ["R2@Train","R2@Test","RMSE@Train","RMSE@Test","Length", "Kommenda"]
+            filesData.append(df[columnsToTest])
+            df = df[columnsToTest].sort_values(by=[columnsToTest[0]])
+            df = df.reset_index(drop=True)
+            rmseA = df[columnsToTest[0]].median(axis=0)
+            Q1 = df[columnsToTest[0]].quantile(0.25)
+            Q3 = df[columnsToTest[0]].quantile(0.75)
+            rmseIQRA = Q3 - Q1
+
+            rmseB = df[columnsToTest[1]].median(axis=0)
+            Q1 = df[columnsToTest[1]].quantile(0.25)
+            Q3 = df[columnsToTest[1]].quantile(0.75)
+            rmseIQRB = Q3 - Q1
+
+            length = df[columnsToTest[2]].median(axis=0)    #df["Length"][15]
+            Q1 = df[columnsToTest[2]].quantile(0.25)
+            Q3 = df[columnsToTest[2]].quantile(0.75)
+            lengthIQR = Q3 - Q1
+            #print("rmse:{:<8.4f}  length:{:<8.0f}".format(rmse, length))
+            myList.append([rmseA, rmseIQRA, rmseB, rmseIQRB, length, lengthIQR])
+        df = pd.DataFrame(myList, columns=[columnsToTest[0], "IQRa", columnsToTest[1], "IQRb", columnsToTest[2], "IQRc"])
+        #print(df)
+        dframes.append(df)
+        
+        # significance test
+        curTestResults = []
+        if 'R2' in columnsToTest[0]:
+            bestIdx = df[columnsToTest[0]].idxmax(axis=1)
+        else:
+            bestIdx = df[columnsToTest[0]].idxmin(axis=1)
+        for row in range(0, len(myList)): # row
+            rowResults = []
+            if row == bestIdx:
+                continue
+            dfBest = filesData[bestIdx]
+            dfRow = filesData[row]
+            for col in range(0, 3): # column
+                _,pvalue = sp.stats.mannwhitneyu(dfBest.iloc[:,col], dfRow.iloc[:,col], alternative='two-sided')
+                rowResults.append(pvalue)
+            curTestResults.append(rowResults)
+        curTestResults = np.array(curTestResults)
+        # holm-bonferri correction for multiple significance tests
+        #for col in range(0, 2): # column
+            #_, curTestResults[:,col] ,_ ,_ = multipletests(curTestResults[:,col], alpha=0.05, method='holm')
+        
+        testdf = pd.DataFrame(curTestResults, columns=columnsToTest)
+        testResults.append(testdf)   #[["RMSE@Test", "Length"]])
+
+    df = pd.concat(dframes, axis=1, ignore_index=False)
+    print(df)
+    #print(df[["RMSE@Test", "IQRa"]])
+
+    print("\n\nSignificance Test Result:")
+    for result in testResults:
+        print(result)
+
+    print("\n\n")
+    for i, k in enumerate(row_desc):
+        rowstring = "\multicolumn{1}{ |c|}{"
+        if isinstance(k, str):
+            rowstring = rowstring + "\small{" + k + "}}"
+        else:
+            rowstring = rowstring + "{:0.1f}".format(k) + "}"
+
+        #for j, frames in enumerate(dframes):
+        frames = dframes[1]
+        j = 1
+        if 'R2' in columnsToTest[0]:
+            bestIdx = frames[columnsToTest[0]].idxmax(axis=1)
+        else:
+            bestIdx = frames[columnsToTest[0]].idxmin(axis=1)
+            
+        toAdd = "{:0.4f}".format(frames[columnsToTest[0]][i])[1:]
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+        elif testResults[j][columnsToTest[0]][i-1 if i > bestIdx else i] < 1e-02:
+            toAdd =  toAdd + " *"
+        else:
+            toAdd =  toAdd + "\hphantom{ *}"
+        rowstring = rowstring + " & " + toAdd
+
+        toAdd = "{:<0.4f}".format(frames["IQRa"][i])[1:]
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}"
+        rowstring = rowstring + " & " + toAdd
+
+        toAdd = "{:0.4f}".format(frames[columnsToTest[1]][i])[1:]
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+        elif testResults[j][columnsToTest[1]][i-1 if i > bestIdx else i] < 1e-02:
+            toAdd =  toAdd + " *"
+        else:
+            toAdd =  toAdd + "\hphantom{ *}"
+        rowstring = rowstring + " & " + toAdd
+
+        toAdd = "{:<0.4f}".format(frames["IQRb"][i])[1:]
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}"
+        rowstring = rowstring + " & " + toAdd
+
+        toAdd = "{:0.0f}".format(frames[columnsToTest[2]][i])
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+        elif testResults[j][columnsToTest[2]][i-1 if i > bestIdx else i] < 1e-02:
+            toAdd =  toAdd + " *"
+        else:
+            toAdd =  toAdd + "\hphantom{ *}"
+        rowstring = rowstring + " & " + toAdd
+
+        toAdd = "{:<0.1f}".format(frames["IQRc"][i])
+        if bestIdx == i:
+            toAdd = "\\textbf{" + toAdd + "}"
+        rowstring = rowstring + " & " + toAdd
+
+
+        rowstring = rowstring + "\\\\"
+        print(rowstring)
+
+
 def binomfortour(k=11):
     toursize_max = 60
     toursize = np.arange(1, toursize_max,1)
@@ -353,15 +695,65 @@ def binomfortour(k=11):
 
 
 def plot_funcs():
-    url = 'data/f2_noisy_5p_n2000_python.csv'
+    url = 'data/f1_n2000_python.csv'
     df = pd.read_csv(url, header=None)
-    #df.columns = ["x0","x1","x2","x3","y"]
-    df.columns = ["x0","x1","y"]
-    sns.set()
+    df.columns = ["x0","x1","x2","x3","y"]
+    #df.columns = ["x0","x1","y"]
+    sns.set(style="whitegrid")
     #sns.pairplot(df)
     print(df.mean())
     sns.distplot(df['y'])
     plt.savefig("plotting/plots/func1_bins.PNG", dpi=300)
+    plt.show()
+
+
+def plotlengthscross():
+    sns.set(style="whitegrid")
+    url = '/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/' + 'f2_lengths.csv'
+    df = pd.read_csv(url)
+    """plt.plot(df['Cross'],df.loc[:, df.columns != 'Cross'], marker="v","o","s","x")
+    plt.legend([df.columns[1],df.columns[2],df.columns[3],df.columns[4]], ncol=2, loc='upper left')
+    """
+    ax = df.plot(x='Crossover', kind='line', style=['-', '--', '-.', '.-'], legend=False, xticks=[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
+    ax.set_xlabel("P(Crossover)")
+    ax.set_ylabel("Length")
+    fig = ax.get_figure()
+    plt.savefig("plotting/plots/crosslengths_f2.PNG", dpi=500)
+    plt.show()
+
+def boxplotviolionplot(filecompare, plotname, boxplot=False):
+    diruri = "/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/summed/csv/"
+    columnnametojoin = "RMSE@Test"
+
+    #read file names and cull by their name
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) ]
+    onlyfiles.sort()
+    finalfiles = []
+    for p in onlyfiles:
+        for k in filecompare:
+            if k in p:
+                finalfiles.append(p)
+    
+
+    dframes = []
+    for p in finalfiles:
+        print(p)
+        df = pd.read_csv(diruri + p, header=None)
+        df.columns = ["R2@TRain","R2@Test","RMSE@Train","RMSE@Test","Length", "Kommenda"]
+        dframes.append(df[columnnametojoin])
+    df = pd.concat(dframes, axis=1)
+    df.columns = ["EplexGP","St.GP","PGP Kom.","PGP Len."]
+
+    sns.set(style="whitegrid")
+    if boxplot:
+        sns.boxplot(data=df, palette="Set3")
+    else:
+        sns.violinplot(data=df, palette="Set3")
+    sns.despine(left=True)
+    plt.ylabel(columnnametojoin)
+    plt.savefig("plotting/plots/" + plotname + ".PNG", dpi=500)
     plt.show()
 
 
@@ -373,15 +765,49 @@ if __name__ == "__main__":
     #plotFunc2()
     #boxplots("tournament_length_scores.csv")
     #boxplots("tournament_kommenda_rmsetrain.csv")
-    """significancetest("/media/daten/nextcloud/Bachelorarbeit/results/parsimony/drittes/live/summed/csv/", 
+    """significancetest("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/parsimony/drittes/live/summed/csv/", 
                         2, 
                         15,
                         [7e-06, 7e-05, 4e-06, 4e-05, 1e-06, 1e-05, 7e-02, 4e-02, 1e-02, 7e-03, 4e-03, 1e-03, 7e-04, 4e-04, 1e-04])"""
-    """significancetest("/media/daten/nextcloud/Bachelorarbeit/results/cross/live4/summed/csv/", 
+    """significancetest("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/summed/csv/", 
                        8, 
                        11,
-                       [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0])"""   
-    for k in range(1,30,1):
-        binomfortour(k = k)
-    #plot_paretofronts()
+                       [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0])"""
+
+    """significancetest("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/summed/csv/", 
+                       6, 
+                       4,
+                       [1,2,3,4])"""
+    """signigicancetestpandas("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/parsimony/drittes/live/summed/csv/", 
+                        2, 
+                        15,
+                        [1e-06, 4e-06, 7e-06, 1e-05, 4e-05, 7e-05, 0.0001, 0.0004, 0.0007, 0.001, 0.004, 0.007, 0.01, 0.04, 0.07],
+                        ["RMSE@Test","Length"],
+                        reverse=False)"""
+
+    """signigicancetestpandas("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/summed/csv/", 
+                       4,
+                       11,
+                       [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0],
+                       ["RMSE@Test","Length"],
+                       reverse=False)"""
+
+    """signigicancetestpandas("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/summed/csv/", 
+                       4,
+                       2,
+                       [1.0, 0.0],
+                       ["RMSE@Test","Length"],
+                       reverse=False)"""
+    signigicancetestpandas2("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/summed/csv/", 
+                       2, 
+                       4,
+                       ["EplexGP","StandardGP","PGP Kom.","PGP Length"],
+                       ["R2@Train","R2@Test","Length"],
+                       reverse=True)
+    """for k in range(1,30,1):
+        binomfortour(k = k)"""
+    #plot_gpmodeldata("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/test gpmodels/crossruns/gpmodels/")
     #plot_funcs()
+    #plotlengthscross()
+    #boxplotviolionplot(["f2_alt"], "boxplot_f2", boxplot=True)
+    #plot_csvruns()
