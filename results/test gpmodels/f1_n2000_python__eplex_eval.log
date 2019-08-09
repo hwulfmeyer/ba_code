@@ -1,0 +1,2 @@
+~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
+0.982       0.00000        0.979       0.00000        1.309e-02       0.000e+00          1.422e-02       0.000e+00          75.00       0.00           1.692e+05       0.000e+00          eplex <> tour11               

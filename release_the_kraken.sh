@@ -9,5 +9,5 @@
 
 #taskset --cpu-list 0,1,2 python3 main.py --filepr eplex --no-pgp --cmplx length --sel eplex --el_size 1 --n_jobs 3 &
 #taskset --cpu-list 0 python3 main.py --filepr pgp_len --pgp --cmplx length --sel tournament --el_size 0 --n_jobs 1 &
-taskset --cpu-list 1,2 python3 main.py --filepr pgp_kom --pgp --cmplx kommenda --sel tournament --el_size 0 --n_jobs 2
+#taskset --cpu-list 0,3 python3 main.py --filepr pgp_kom_aaa --pgp --cmplx kommenda --sel tournament --el_size 0 --n_jobs 2
 #taskset --cpu-list 0,1,2,3 python3 main.py --filepr stgp --no-pgp --cmplx length --sel tournament --el_size 1 --n_jobs 4

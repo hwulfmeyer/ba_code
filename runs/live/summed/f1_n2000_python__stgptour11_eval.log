@@ -1,6 +1,0 @@
-R2@Train   R2@Test    RMSE@Train     RMSE@Test      Length     Kommenda      
-0.932      0.927      2.548e-02      2.619e-02      111        6.512e+04     
-R2@Train   R2@Test    RMSE@Train     RMSE@Test      Length     Kommenda      
-0.914      0.906      2.841e-02      3.009e-02      99         1.926e+04     
-R2@Train   R2@Test    RMSE@Train     RMSE@Test      Length     Kommenda      
-0.983      0.980      1.288e-02      1.391e-02      73         6.180e+03     

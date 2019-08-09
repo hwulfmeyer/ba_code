@@ -1,0 +1,3 @@
+R2@Train   R2@Test    RMSE@Train     RMSE@Test      Length     Kommenda      
+R2@Train   R2@Test    RMSE@Train     RMSE@Test      Length     Kommenda      
+0.997      0.997      5.458e-03      5.705e-03      133        2.118e+03     

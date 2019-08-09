@@ -1,0 +1,14 @@
+1250 generations
+Runtime EPLEX 1h30m(f2) 1h50m(f1)
+6 datasets
+
+
+
+50 runs
+3 kerne => 3m:20s
+
+1 kern => 8m:00s
+
+
+3er split mit je 31*2*75*3,33m
+6er split mit je 31*75*8m

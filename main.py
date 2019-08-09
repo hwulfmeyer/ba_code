@@ -1,10 +1,3 @@
-"""
-TODOS:
-- pareto fronts plotten [check]
-- point mutation, instead of replace add/subtract to exisiting constant [DONE]
-- analyze ParetoFront/NSGA2 for doppelgänger (Why, How, ...?) [ALMOST DONE]
-- plot error histogramm of population [TODO]
-"""
 
 import argparse
 import datetime
@@ -20,6 +13,8 @@ import sympy
 from gplearn.genetic import SymbolicRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
 
 import gputils
 
@@ -29,28 +24,28 @@ crossvalidations = 1
 def gpstart(est_gp, fileprefix, X_train, X_test, y_train, y_test):
     gplogger_est = gputils.Mylogger(folder="runs/live/crossruns", fileprefix=fileprefix, filesuffix="est")
     gplogger_est.start()
-    
+    est_gp_pipeline = make_pipeline(PolynomialFeatures(degree=3), est_gp)
     # run genetic programming regression
     internal_gens = 25
     gens_now = internal_gens
-    est_gp.set_params(generations=gens_now)
-
-    starttime = time.time()
-    est_gp.fit(X_train, y_train)
-
+    est_gp_pipeline.steps[-1][1].set_params(generations=gens_now)
+    starttime = time.time() 
+    est_gp_pipeline.fit(X_train, y_train)
     # every 'internal_gens' generations put out the current best program
     while gens_now <= gens_total-1:
         gens_now = gens_now + internal_gens
         gplogger_est.stop()
         gplogger_est.start()
-        est_gp.set_params(generations=gens_now, warm_start=True)
-        est_gp.fit(X_train, y_train)
+        est_gp_pipeline.steps[-1][1].set_params(generations=gens_now, warm_start=True)
+        est_gp_pipeline.fit(X_train, y_train)
 
     endtime = time.time()
     timediff = endtime - starttime
     timediff_h = math.floor(timediff/3600)
     timediff_min = math.floor(timediff/60 - timediff_h*60)
     timediff_sec = math.floor(timediff - (timediff_h*60 + timediff_min)*60)
+
+    est_gp = est_gp_pipeline.steps[-1][1]    # extract est_gp from pipeline
 
     print("\n"*4)
     print("Time: {}h:{}m:{}s".format(timediff_h, timediff_min, timediff_sec))
@@ -62,7 +57,7 @@ def gpstart(est_gp, fileprefix, X_train, X_test, y_train, y_test):
     print("Best Program Complexity: " + str(best_gp.complexity_))
     print("Raw Fitness: " + str(best_gp.raw_fitness_))
     print("Penalized Fitness: " + str(best_gp.fitness_))
-    gputils.est_evaluation(est_gp, X_train, X_test, y_train, y_test)
+    gputils.est_evaluation(est_gp_pipeline, X_train, X_test, y_train, y_test)
     print()
     print(est_gp.get_params())
     gplogger_est.stop()
@@ -98,7 +93,7 @@ if __name__ == "__main__":
     length_coefficients = None #[7e-2, 4e-2, 1e-2, 7e-3, 4e-3, 1e-3, 7e-4, 4e-4, 1e-4, 7e-5, 4e-5, 1e-5, 7e-6, 4e-6, 1e-6]
     
     
-    data_sets = ["f1_n2000_python"] #"f2_alt_n2000_python", "f2_noisy_1p_n2000_python", "f2_noisy_5p_n2000_python", "f1_n2000_python", "f1_noisy_1p_n2000_python", "f1_noisy_5p_n2000_python"]
+    data_sets = ["f1_n2000_python", "f2_alt_n2000_python"] #"f2_noisy_1p_n2000_python", "f2_noisy_5p_n2000_python", "f1_n2000_python", "f1_noisy_1p_n2000_python", "f1_noisy_5p_n2000_python"]
     tournament_sizes = [11]
     p_crossover = 0.5
     random_state = np.random.RandomState(6619927)
@@ -170,19 +165,19 @@ if __name__ == "__main__":
                                     random_state = seed,
                                     p_hoist_mutation=0.0)
 
-                est_gp.set_params(paretogp_lengths = (5,160),
+                est_gp.set_params(paretogp_lengths = (5,250),
                             paretogp = False,
                             complexity = 'length',
                             selection = 'tournament',
                             elitism_size = 1,
                             tournament_size = toursize,
                             parsimony_coefficient = length_coefficients, # = 0.0,
-                            p_crossover = 0.2,#p_crossover,
-                            p_subtree_mutation = 0.3, #p_mutations,
+                            p_crossover = 0.1,#p_crossover,
+                            p_subtree_mutation = 0.5, #p_mutations,
                             p_point_mutation = 0.3, #p_mutations,
                             p_point_replace = 0.05,
-                            p_gs_crossover = 0.1,
-                            p_gs_mutation = 0.1,
+                            p_gs_crossover = 0.05,
+                            p_gs_mutation = 0.05,
                             gs_mutationstep = 0.001
                             )
 

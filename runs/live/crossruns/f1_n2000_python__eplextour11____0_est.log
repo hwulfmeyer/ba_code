@@ -1,0 +1,176 @@
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      4.29s        0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      1.60s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      1.80s        0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      1.24s        0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      0.00s        0         
+Invalid parameter generations for estimator Pipeline(memory=None,
+     steps=[('polynomialfeatures', PolynomialFeatures(degree=4, include_bias=True, interaction_only=False)), ('symbolicregressor', SymbolicRegressor(complexity='length', const_range=(1e-10, 2.0),
+         elitism_size=1, function_set=('add', 'sub', 'div', 'mul'),
+         generations=5, gs_mutationstep=0...plex',
+         stopping_criteria=1e-10, tournament_size=11, verbose=1,
+         warm_start=False))]). Check the list of available parameters with `estimator.get_params().keys()`.
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      4.77s        0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      1.60s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      1.82s        0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      1.22s        0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      0.00s        0         
+Invalid parameter generations for estimator Pipeline(memory=None,
+     steps=[('polynomialfeatures', PolynomialFeatures(degree=4, include_bias=True, interaction_only=False)), ('symbolicregressor', SymbolicRegressor(complexity='length', const_range=(1e-10, 2.0),
+         elitism_size=1, function_set=('add', 'sub', 'div', 'mul'),
+         generations=5, gs_mutationstep=0...plex',
+         stopping_criteria=1e-10, tournament_size=11, verbose=1,
+         warm_start=False))]). Check the list of available parameters with `estimator.get_params().keys()`.
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      1.11m        0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      32.63s       0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      48.69s       0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      56.87s       0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      27.44s       0         
+5    1.658e+01    5.625e+10    9.409e+16      2.500e+01    1.039e+03    9.933e-02      29.04s       0         
+6    1.680e+01    9.301e+05    6.277e+14      3.700e+01    1.183e+03    9.785e-02      50.18s       0         
+7    1.857e+01    1.491e+09    3.252e+14      5.000e+00    5.000e+00    8.564e-02      51.08s       0         
+8    2.136e+01    6.849e+08    6.107e+10      5.000e+00    5.000e+00    8.564e-02      47.06s       0         
+9    2.739e+01    6.875e+07    1.081e+14      1.300e+01    2.200e+01    7.389e-02      41.82s       0         
+10   2.850e+01    6.142e+10    4.087e+11      1.700e+01    3.000e+01    6.875e-02      32.28s       0         
+11   3.238e+01    4.132e+08    1.884e+14      4.700e+01    1.420e+02    6.810e-02      52.39s       0         
+12   4.149e+01    5.800e+10    3.201e+08      4.900e+01    1.460e+02    6.129e-02      56.95s       0         
+13   4.550e+01    2.399e+07    2.884e+14      4.500e+01    1.140e+02    5.881e-02      1.13m        0         
+14   4.674e+01    7.919e+10    8.076e+11      4.500e+01    1.140e+02    5.881e-02      1.17m        0         
+15   5.107e+01    3.716e+09    1.537e+10      5.100e+01    1.800e+02    5.866e-02      1.04m        0         
+16   5.518e+01    1.173e+10    4.665e+17      4.900e+01    1.460e+02    5.536e-02      52.86s       0         
+17   6.469e+01    8.537e+07    2.245e+10      4.900e+01    1.460e+02    5.536e-02      1.01m        0         
+18   6.734e+01    9.054e+05    5.829e+14      4.900e+01    1.460e+02    5.536e-02      56.01s       0         
+19   8.932e+01    2.233e+06    2.940e+10      4.900e+01    1.460e+02    5.536e-02      57.13s       0         
+20   8.294e+01    2.138e+08    1.613e+12      4.900e+01    1.460e+02    5.536e-02      52.30s       0         
+21   9.145e+01    8.886e+09    4.360e+15      6.500e+01    2.860e+02    5.411e-02      58.20s       0         
+22   1.133e+02    1.285e+10    8.520e+19      1.990e+02    2.544e+03    4.906e-02      1.02m        0         
+23   1.259e+02    6.838e+13    1.187e+10      1.970e+02    2.528e+03    4.810e-02      52.98s       0         
+24   1.485e+02    2.354e+12    3.463e+16      1.790e+02    1.656e+03    4.695e-02      1.03m        0         
+25   1.519e+02    1.117e+14    4.030e+18      1.790e+02    1.856e+03    4.638e-02      55.69s       0         
+26   1.567e+02    1.068e+07    4.385e+11      1.930e+02    2.120e+03    4.688e-02      50.41s       0         
+27   1.594e+02    2.932e+11    1.161e+15      1.750e+02    2.244e+03    4.147e-02      50.27s       0         
+28   1.517e+02    8.262e+09    2.063e+15      1.570e+02    2.352e+03    4.186e-02      44.77s       0         
+29   1.559e+02    1.177e+10    1.747e+11      1.570e+02    2.352e+03    4.186e-02      55.64s       0         
+30   1.574e+02    4.802e+07    1.863e+23      1.670e+02    1.424e+03    3.945e-02      47.40s       0         
+31   1.668e+02    6.829e+05    2.420e+12      1.670e+02    1.424e+03    3.945e-02      52.27s       0         
+32   1.647e+02    4.775e+14    3.189e+13      1.510e+02    2.276e+03    3.914e-02      39.79s       0         
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      11.27s       0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      5.52s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      7.76s        0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      8.72s        0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      3.00s        0         
+5    1.658e+01    5.625e+10    9.409e+16      2.500e+01    1.039e+03    9.933e-02      2.50s        0         
+6    1.680e+01    9.301e+05    6.277e+14      3.700e+01    1.183e+03    9.785e-02      3.31s        0         
+7    1.857e+01    1.491e+09    3.252e+14      5.000e+00    5.000e+00    8.564e-02      2.53s        0         
+8    2.136e+01    6.849e+08    6.107e+10      5.000e+00    5.000e+00    8.564e-02      1.14s        0         
+9    2.739e+01    6.875e+07    1.081e+14      1.300e+01    2.200e+01    7.389e-02      0.00s        0         
+
+
+
+
+
+Time: 0h:0m:10s
+####   Data for the best program   ####
+'Pipeline' object has no attribute '_program'
+('symbolicregressor', SymbolicRegressor(complexity='length', const_range=(1e-10, 2.0),
+         elitism_size=1, function_set=('add', 'sub', 'div', 'mul'),
+         generations=10, gs_mutationstep=0.001, init_depth=(3, 6),
+         init_method='half and half', low_memory=True, max_samples=1.0,
+         metric='rmse', n_jobs=3, p_crossover=0.1, p_gs_crossover=0.01,
+         p_gs_mutation=0.01, p_hoist_mutation=0.0, p_point_mutation=0.38,
+         p_point_replace=0.05, p_subtree_mutation=0.5, paretogp=False,
+         paretogp_lengths=(5, 160), parsimony_coefficient=7e-05,
+         population_size=800, random_state=26519714, selection='eplex',
+         stopping_criteria=1e-10, tournament_size=11, verbose=1,
+         warm_start=False))
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      11.47s       0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      4.38s        0         
+'tuple' object has no attribute 'set_params'
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      11.75s       0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      5.55s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      6.89s        0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      8.60s        0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      3.20s        0         
+5    1.658e+01    5.625e+10    9.409e+16      2.500e+01    1.039e+03    9.933e-02      2.71s        0         
+'Pipeline' object is not subscriptable
+zip argument #2 must support iteration
+zip argument #2 must support iteration
+'Pipeline' object is not subscriptable
+[('polynomialfeatures', PolynomialFeatures(degree=4, include_bias=True, interaction_only=False)), ('symbolicregressor', SymbolicRegressor(complexity='length', const_range=(1e-10, 2.0),
+         elitism_size=1, function_set=('add', 'sub', 'div', 'mul'),
+         generations=3, gs_mutationstep=0.001, init_depth=(3, 6),
+         init_method='half and half', low_memory=True, max_samples=1.0,
+         metric='rmse', n_jobs=3, p_crossover=0.1, p_gs_crossover=0.01,
+         p_gs_mutation=0.01, p_hoist_mutation=0.0, p_point_mutation=0.38,
+         p_point_replace=0.05, p_subtree_mutation=0.5, paretogp=False,
+         paretogp_lengths=(5, 160), parsimony_coefficient=7e-05,
+         population_size=800, random_state=26519714, selection='eplex',
+         stopping_criteria=1e-10, tournament_size=11, verbose=1,
+         warm_start=False))]
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      2.49s        0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      0.54s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      0.00s        0         
+Invalid parameter generations for estimator Pipeline(memory=None,
+     steps=[('polynomialfeatures', PolynomialFeatures(degree=4, include_bias=True, interaction_only=False)), ('symbolicregressor', SymbolicRegressor(complexity='length', const_range=(1e-10, 2.0),
+         elitism_size=1, function_set=('add', 'sub', 'div', 'mul'),
+         generations=3, gs_mutationstep=0...plex',
+         stopping_criteria=1e-10, tournament_size=11, verbose=1,
+         warm_start=False))]). Check the list of available parameters with `estimator.get_params().keys()`.
+list indices must be integers or slices, not str
+    |          Population Average          |           Best Individual            |
+---- -------------------------------------- -------------------------------------- ----------
+Gen  Length       Kommenda     Fitness        Length       Kommenda     Fitness        Time Left    Front Size
+0    3.291e+01    8.807e+18    3.570e+27      3.000e+00    4.000e+00    2.331e-01      3.03s        0         
+1    5.570e+00    7.019e+12    1.554e+16      5.000e+00    1.000e+01    1.669e-01      0.58s        0         
+2    6.758e+00    1.563e+10    7.136e+11      7.000e+00    1.600e+01    1.294e-01      0.00s        0         
+3    1.078e+01    1.844e+12    5.831e+09      7.000e+00    1.600e+01    1.120e-01      2.61s        0         
+4    1.369e+01    5.997e+08    3.823e+11      1.300e+01    5.800e+01    1.006e-01      0.61s        0         
+5    1.658e+01    5.625e+10    9.409e+16      2.500e+01    1.039e+03    9.933e-02      0.00s        0         
+6    1.680e+01    9.301e+05    6.277e+14      3.700e+01    1.183e+03    9.785e-02      2.28s        0         
+7    1.857e+01    1.491e+09    3.252e+14      5.000e+00    5.000e+00    8.564e-02      1.19s        0         
+8    2.136e+01    6.849e+08    6.107e+10      5.000e+00    5.000e+00    8.564e-02      0.00s        0         
+9    2.739e+01    6.875e+07    1.081e+14      1.300e+01    2.200e+01    7.389e-02      2.09s        0         
+10   2.850e+01    6.142e+10    4.087e+11      1.700e+01    3.000e+01    6.875e-02      0.87s        0         
+11   3.238e+01    4.132e+08    1.884e+14      4.700e+01    1.420e+02    6.810e-02      0.00s        0         
+12   4.149e+01    5.800e+10    3.201e+08      4.900e+01    1.460e+02    6.129e-02      2.93s        0         
+13   4.550e+01    2.399e+07    2.884e+14      4.500e+01    1.140e+02    5.881e-02      1.71s        0         
+14   4.674e+01    7.919e+10    8.076e+11      4.500e+01    1.140e+02    5.881e-02      0.00s        0         
+15   5.107e+01    3.716e+09    1.537e+10      5.100e+01    1.800e+02    5.866e-02      3.70s        0         
+16   5.518e+01    1.173e+10    4.665e+17      4.900e+01    1.460e+02    5.536e-02      1.59s        0         
+17   6.469e+01    8.537e+07    2.245e+10      4.900e+01    1.460e+02    5.536e-02      0.00s        0         
+18   6.734e+01    9.054e+05    5.829e+14      4.900e+01    1.460e+02    5.536e-02      3.59s        0         
+19   8.932e+01    2.233e+06    2.940e+10      4.900e+01    1.460e+02    5.536e-02      1.82s        0         
+20   8.294e+01    2.138e+08    1.613e+12      4.900e+01    1.460e+02    5.536e-02      0.00s        0         
+
+
+
+
+
+Time: 0h:0m:28s
+####   Data for the best program   ####
+Best Program: add(mul(sub(add(sub(X67, X61), add(X57, X58)), add(sub(X33, 0.646), mul(X39, X40))), 0.697), mul(0.303, sub(add(sub(sub(X68, X20), X57), add(mul(add(X9, X66), sub(X39, X45)), sub(add(X20, X40), sub(X66, X15)))), add(sub(X17, 0.646), mul(X39, X4)))))
+Best Program Infix: (((((X67-X61)+(X57+X58))-((X33-0.6456215227347983)+(X39*X40)))*0.6972881929901241)+(0.3027118070098759*((((X68-X20)-X57)+(((X9+X66)*(X39-X45))+((X20+X40)-(X66-X15))))-((X17-0.6456215227347983)+(X39*X4)))))
+Best Program Complexity: 49
+Raw Fitness: 0.05536328801193303
+Penalized Fitness: 0.05879328801193303
+Number of features of the model must match the input. Model n_features is 70 and input n_features is 4.

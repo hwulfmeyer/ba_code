@@ -1,0 +1,2 @@
+~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
+0.971       0.00000        0.970       0.00000        9.404e-02       0.000e+00          9.693e-02       0.000e+00          108.00      0.00           3.974e+19       0.000e+00          stgp <> tour11                

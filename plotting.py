@@ -29,8 +29,8 @@ data_out = my_data[:,-1]
 
 def func1(a=1,b=1,c=1,d=1):
     # vom 17-12-2018_04:06:31
-    return  -0.092*a*b**2 - 0.0174876033057851*a*c + 0.092*a + 0.092*b*(b + 1) - 0.298*c - 0.092*d**2 + 0.092*d + 0.014109488*(1.277*b - 1.953)*(1.832*b + 1.832*c - 3.33832)*(a + b + c - 1.31) + 0.008464*(c - 0.914)*(a*(b*(a - b - 2*c + 1.828) - 1.953*(b - 0.864)*(1.443*b - 1.953*(-a + b*(b + 1.443))*(b + 2.06611570247934*c**2 - 0.914))) - 3.03951367781155*c*(b + 0.674)) + 0.693
-
+    return (0.0463*a*(a + c) - 0.0388*b*(a*c + 2.7335*a*(a + c) + c**2*(a + c)) - 0.0794*(a + c)*(d - 0.508)**2 + (a + c)*(-0.0388*a*(c**2 - 0.597) + 0.0776*a + 0.2746*b - 0.0388*c**2 - 0.197*c - 0.0388*(a + c)*(b - 0.597) + 0.6114))/(a + c)
+    
 # 0, 1, 2, 3
 def func12(a=1,b=1,c=1,d=1):
     t1opt = 0.5 + 0.2*a + 0.3*b - 0.2*(a*b)
@@ -112,7 +112,7 @@ def plotFunc3():
     input()
 
 def plotError():
-    u = np.linspace(0, 1, 1000)
+    u = np.linspace(0, 1, 3000)
     v = u
     w = u
     x = u
@@ -184,7 +184,7 @@ def x_bins(dim):
 def plot_gpmodeldata(diruri):
     from os import listdir
     from os.path import isfile, join
-    func = "f2"
+    func = "f1"
     onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and func in f]
     onlyfiles.sort()
     est_gp_pickles = []
@@ -194,7 +194,7 @@ def plot_gpmodeldata(diruri):
             est_gp = pickle.load(f)
             est_gp_pickles.append(est_gp)
     
-    """dfframes = []
+    dfframes = []
     for gppickle in est_gp_pickles:
         df = pd.DataFrame(gppickle.run_details_["best_fitness"], columns=["Fitness"])
         dfframes.append(df)
@@ -210,8 +210,8 @@ def plot_gpmodeldata(diruri):
 
     fig = ax.get_figure()
     plt.savefig("plotting/plots/generations_f1.PNG", dpi=500)
-    plt.show()"""
-    
+    plt.show()
+    """
     index = 1
     gensteps = [0,25,150,800,1249]
     fronts_raw = []
@@ -231,13 +231,13 @@ def plot_gpmodeldata(diruri):
     if func == "f2":
         plt.legend(loc='best')
     plt.savefig("plotting/plots/" + func + "_pgp_" + complexity + "_fronts.PNG", dpi=500)
-    plt.show()
+    plt.show()"""
 
     
 
 def plot_csvruns():
     diruri = "/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/medians/CSV/"
-    func = "f1"
+    func = "f2"
     from os import listdir
     from os.path import isfile, join
     onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f)) and func in f]
@@ -671,6 +671,116 @@ def signigicancetestpandas2(diruri, testsize, num_files, row_desc, columnsToTest
         rowstring = rowstring + "\\\\"
         print(rowstring)
 
+def signigicancetestpandas3(diruri, testsize, num_files, row_desc, columnsToTest, reverse):
+    # testsize = number of seperate tests to do
+    # num_files = files per test
+    # row_desc = list of the numbers representing the paramter (do not set to string/char)
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(diruri) if isfile(join(diruri, f))] #and ('pc1.0' in f or 'pc0.0' in f)]
+    onlyfiles.sort(reverse=reverse)
+    for f in onlyfiles:
+        print(f)
+    fileslength = len(onlyfiles)/testsize
+    print(onlyfiles)
+    if num_files != fileslength:
+        raise Exception('Wrong number of num_files or the testsize! ' + str(num_files) + ' vs ' + str(fileslength))
+    dframes = []
+    testResults = []
+    for _ in range(testsize):
+        file_lists = []
+        files = []
+        for _ in range(int(fileslength)):
+            k = onlyfiles.pop()
+            print(k)
+            files.append(k)
+        file_lists.append(files)
+        filesData = []
+        myList = []
+        for p in files:
+            df = pd.read_csv(diruri + p, header=None)
+            df.columns = ["R2@Train","R2@Test","RMSE@Train","RMSE@Test"]
+            filesData.append(df[columnsToTest])
+            df = df[columnsToTest].sort_values(by=[columnsToTest[0]])
+            df = df.reset_index(drop=True)
+            rmseA = df[columnsToTest[0]].median(axis=0)
+            Q1 = df[columnsToTest[0]].quantile(0.25)
+            Q3 = df[columnsToTest[0]].quantile(0.75)
+            rmseIQRA = Q3 - Q1
+
+            rmseB = df[columnsToTest[1]].median(axis=0)
+            Q1 = df[columnsToTest[1]].quantile(0.25)
+            Q3 = df[columnsToTest[1]].quantile(0.75)
+            rmseIQRB = Q3 - Q1
+
+            #print("rmse:{:<8.4f}  length:{:<8.0f}".format(rmse, length))
+            myList.append([rmseA, rmseIQRA, rmseB, rmseIQRB])
+        df = pd.DataFrame(myList, columns=[columnsToTest[0], "IQRa", columnsToTest[1], "IQRb"])
+        #print(df)
+        dframes.append(df)
+        
+        # significance test
+        curTestResults = []
+        if 'R2' in columnsToTest[0]:
+            bestIdx = df[columnsToTest[0]].idxmax(axis=1)
+        else:
+            bestIdx = df[columnsToTest[0]].idxmin(axis=1)
+        for row in range(0, len(myList)): # row
+            rowResults = []
+            if row == bestIdx:
+                continue
+            dfBest = filesData[bestIdx]
+            dfRow = filesData[row]
+            for col in range(0, 2): # column
+                _,pvalue = sp.stats.mannwhitneyu(dfBest.iloc[:,col], dfRow.iloc[:,col], alternative='two-sided')
+                rowResults.append(pvalue)
+            curTestResults.append(rowResults)
+        curTestResults = np.array(curTestResults)
+        # holm-bonferri correction for multiple significance tests
+        #for col in range(0, 2): # column
+            #_, curTestResults[:,col] ,_ ,_ = multipletests(curTestResults[:,col], alpha=0.05, method='holm')
+        
+        testdf = pd.DataFrame(curTestResults, columns=columnsToTest)
+        testResults.append(testdf)   #[["RMSE@Test", "Length"]])
+
+    df = pd.concat(dframes, axis=1, ignore_index=False)
+    print(df)
+    #print(df[["RMSE@Test", "IQRa"]])
+
+    print("\n\nSignificance Test Result:")
+    for result in testResults:
+        print(result)
+
+    print("\n\n")
+    for i, k in enumerate(row_desc):
+        rowstring = "\multicolumn{1}{ |c|}{"
+        if isinstance(k, str):
+            rowstring = rowstring + "\small{" + k + "}}"
+        else:
+            rowstring = rowstring + "{:0.1f}".format(k) + "}"
+
+        for j, frames in enumerate(dframes):
+            if 'R2' in columnsToTest[0]:
+                bestIdx = frames[columnsToTest[0]].idxmax(axis=1)
+            else:
+                bestIdx = frames[columnsToTest[0]].idxmin(axis=1)
+                
+            toAdd = "{:0.2e}".format(frames[columnsToTest[0]][i])
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}" + "\hphantom{ *}"
+            elif testResults[j][columnsToTest[0]][i-1 if i > bestIdx else i] < 1e-02:
+                toAdd =  toAdd + " *"
+            else:
+                toAdd =  toAdd + "\hphantom{ *}"
+            rowstring = rowstring + " & " + toAdd
+
+            toAdd = "{:<0.2e}".format(frames["IQRa"][i])
+            if bestIdx == i:
+                toAdd = "\\textbf{" + toAdd + "}"
+            rowstring = rowstring + " & " + toAdd
+
+        rowstring = rowstring + "\\\\"
+        print(rowstring)
 
 def binomfortour(k=11):
     toursize_max = 60
@@ -706,19 +816,32 @@ def plot_funcs():
     plt.savefig("plotting/plots/func1_bins.PNG", dpi=300)
     plt.show()
 
+def plotErrorHistogram():
+    dataset="f1_n2000_python"
+    my_data = np.genfromtxt("data/" + dataset + ".csv", delimiter=',')
+    X = my_data[:,:-1]
+    y = my_data[:,-1]
+    y_pred = func1(X[:,0], X[:,1], X[:,2], X[:,3]) # - func2(U, V, .5, .5)
+    y_error = abs(y - y_pred)
+    sns.set(style="white")
+
+    sns.kdeplot(y, y_error, n_levels=20)
+    plt.savefig("plotting/plots/func1b.PNG", dpi=500)
+    plt.show()
+
 
 def plotlengthscross():
     sns.set(style="whitegrid")
-    url = '/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/' + 'f2_lengths.csv'
+    url = '/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/cross/live4/' + 'f1_lengths.csv'
     df = pd.read_csv(url)
     """plt.plot(df['Cross'],df.loc[:, df.columns != 'Cross'], marker="v","o","s","x")
     plt.legend([df.columns[1],df.columns[2],df.columns[3],df.columns[4]], ncol=2, loc='upper left')
     """
-    ax = df.plot(x='Crossover', kind='line', style=['-', '--', '-.', '.-'], legend=False, xticks=[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
+    ax = df.plot(x='Crossover', kind='line', style=['-', '--', '-.', '.-'], legend=True, xticks=[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0])
     ax.set_xlabel("P(Crossover)")
     ax.set_ylabel("Length")
     fig = ax.get_figure()
-    plt.savefig("plotting/plots/crosslengths_f2.PNG", dpi=500)
+    plt.savefig("plotting/plots/crosslengths_f1.PNG", dpi=500)
     plt.show()
 
 def boxplotviolionplot(filecompare, plotname, boxplot=False):
@@ -798,16 +921,25 @@ if __name__ == "__main__":
                        [1.0, 0.0],
                        ["RMSE@Test","Length"],
                        reverse=False)"""
-    signigicancetestpandas2("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/summed/csv/", 
+    """signigicancetestpandas2("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/algorithms/first/summed/csv/", 
                        2, 
                        4,
                        ["EplexGP","StandardGP","PGP Kom.","PGP Length"],
                        ["R2@Train","R2@Test","Length"],
-                       reverse=True)
+                       reverse=True)"""
     """for k in range(1,30,1):
         binomfortour(k = k)"""
+
+    """signigicancetestpandas3("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/other_regr/csv/", 
+                       2, 
+                       7,
+                       ["MLP","EplexGP","PGP Kommenda","GaussProcess","GradientTrees","Linear","Polynomial"],
+                       ["RMSE@Test","RMSE@Train"],
+                       reverse=True)"""
     #plot_gpmodeldata("/mnt/daten/dokumente/nextcloud/Bachelorarbeit/results/test gpmodels/crossruns/gpmodels/")
     #plot_funcs()
     #plotlengthscross()
     #boxplotviolionplot(["f2_alt"], "boxplot_f2", boxplot=True)
+    #boxplotviolionplot(["f1_n2000"], "boxplot_f1", boxplot=True)
     #plot_csvruns()
+    plotErrorHistogram()

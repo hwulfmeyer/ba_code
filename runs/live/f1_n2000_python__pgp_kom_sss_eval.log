@@ -1,0 +1,3 @@
+~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
+~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
+0.997       0.00000        0.997       0.00000        5.458e-03       0.000e+00          5.705e-03       0.000e+00          133.00      0.00           2.118e+03       0.000e+00          pgp_kom_sss <> tour11         

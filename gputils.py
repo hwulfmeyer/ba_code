@@ -93,16 +93,16 @@ def sqrt(a):
     return "cos(" + str(a) + ")"
 
 def parse(eq):
-    X0 = "X0"
-    X1 = "X1"
-    X2 = "X2"
-    X3 = "X3"
+    X0 = "a"
+    X1 = "b"
+    X2 = "c"
+    X3 = "d"
     return eval(eq)
 
 
 def runfunc(a,b,c,d):
-    code = "sub(0.657, mul(0.252, add(mul(0.252, sub(X1, X0)), add(mul(0.168, sub(mul(mul(add(div(X0, 0.347), mul(0.168, sub(add(X2, add(div(sub(sub(mul(0.679, add(X3, mul(1.409, mul(1.409, sub(X2, X0))))), X3), X3), X1), 0.698)), X3))), X1), X2), X0)), add(mul(0.168, mul(mul(0.679, add(X3, mul(1.409, mul(1.409, sub(X2, X0))))), sub(X2, 0.828))), add(mul(0.168, mul(X3, sub(mul(X3, sub(X0, sub(0.556, X3))), X0))), add(mul(sub(0.836, X2), mul(sub(0.657, X1), sub(0.556, X0))), sub(X2, X1))))))))"
-    code = parse(code)
+    code = "0.0336*a*b*c - 0.1831*a*b - 0.0592*a*c + 0.1938*a - 0.0825*b*c + 0.2908*b - 0.0560*c**2 - 0.0112*c*d - 0.1583*c - 0.0224*d**3 - 0.0560*d**2 + 0.0780*d + 0.5844"
+    #code = parse(code)
     return eval(code)
 
 class InfToPre(ast.NodeVisitor):
@@ -161,27 +161,27 @@ class InfToPre(ast.NodeVisitor):
 
 
 
-def func_evaluation(X_train, X_test, y_train, y_test):
-    rmse_gp_train = rmse(runfunc(X_train[:,0], X_train[:,1], X_train[:,2], X_train[:,3]), y_train)
-    rmse_gp_test = rmse(runfunc(X_test[:,0], X_test[:,1], X_test[:,2], X_test[:,3]), y_test)
-    print("Train-rmse: " + str(rmse_gp_train) + "\t\tTest-rmse: " + str(rmse_gp_test))
+def func_evaluation(X, y):
+    y_pred = runfunc(X[:,0], X[:,1], X[:,2], X[:,3])
+    for y_pred_val in y_pred:
+        if y_pred_val in (float('NaN'), float('Inf'), -float('Inf')):
+            print("true")
+    rmse_val = rmse(y_pred, y)
+    print("RMSE: " + str(rmse_val))
 
 if __name__ == "__main__":
-    """train_file="f1_n200_matlab.csv"
-    test_file="f1_n1000_python.csv"
-    my_data = np.genfromtxt("data/" + train_file, delimiter=',')
-    X_train = my_data[:,[0,1,2,3]]
-    y_train = my_data[:,4]
-
-    my_data = np.genfromtxt("data/" + test_file, delimiter=',')
-    X_test = my_data[:,[0,1,2,3]]
-    y_test = my_data[:,4]
-    func_evaluation(X_train,X_test, y_train,y_test)
-    """
-    code = "add(add(add(add(add(add(add(add(add(add(add(add(0.655, mul(0.270, sub(X1, X2))), mul(0.036, sub(mul(add(X0, sub(X0, 0.212)), add(sub(1.029, X1), sub(1.033, X1))), X1))), mul(0.001, mul(1.937, add(X3, mul(sub(1.653, mul(mul(mul(add(sub(add(sub(X1, X3), add(X2, X2)), sub(X3, X0)), mul(add(mul(X3, 0.455), X3), X3)), mul(add(X1, X1), X2)), 1.659), 1.659)), add(X2, X2)))))), mul(0.001, sub(mul(mul(div(X3, 0.223), sub(0.645, X3)), add(add(div(1.885, 0.270), div(X3, 0.223)), div(sub(1.667, div(sub(1.659, X1), div(X3, 0.162))), 0.223))), div(sub(sub(X1, sub(sub(X2, X3), 0.212)), sub(X0, 1.390)), div(mul(add(X0, 0.628), add(X2, X1)), 1.756))))), mul(0.001, X0)), mul(0.001, div(X3, 0.223))), mul(0.001, sub(sub(div(X3, 0.223), add(sub(mul(mul(1.995, 0.655), sub(0.645, X3)), X3), div(sub(sub(1.033, X1), sub(X0, 1.390)), add(X3, X2)))), 0.036))), mul(0.001, div(X3, 0.196))), mul(0.001, sub(div(sub(sub(X0, div(X1, 0.426)), sub(add(0.655, mul(mul(1.995, mul(1.995, sub(1.079, X1))), sub(X1, X2))), X0)), add(X1, X2)), sub(1.079, X1)))), mul(0.001, sub(mul(X3, add(1.544, sub(1.659, mul(mul(mul(mul(mul(add(mul(add(X0, 0.744), mul(add(X0, sub(X0, 0.212)), mul(1.995, sub(1.079, X1)))), X3), div(X2, X3)), 1.659), X2), X2), add(X2, X2))))), 0.280))), sub(X0, X0)), mul(0.001, 0.668))"
-    simpli = sympy.simplify(parse(code))
+    dataset="f1_n2000_python"
+    my_data = np.genfromtxt("data/" + dataset + ".csv", delimiter=',')
+    X = my_data[:,:-1]
+    y = my_data[:,-1]
+    func_evaluation(X, y)
+    
+    code = "add(sub(0.926, 1.253), add(0.872, mul(sub(add(X1, add(sub(0.923, 1.253), add(0.872, mul(sub(sub(add(sub(add(add(X0, mul(sub(add(sub(add(sub(1.651, X1), mul(sub(sub(0.923, X3), X3), sub(add(X3, X3), 1.172))), mul(X3, X3)), add(sub(mul(sub(0.923, mul(X3, X3)), add(X3, X3)), X0), mul(sub(X2, 0.923), sub(sub(sub(0.923, sub(X1, sub(sub(sub(0.923, sub(mul(sub(X0, 0.453), sub(sub(0.923, add(X1, X1)), sub(X1, 0.973))), sub(sub(0.926, sub(X2, sub(sub(sub(sub(sub(1.464, X1), add(X1, X1)), X1), X3), X2))), X2))), X2), 0.195))), X2), X1)))), X2), 0.295)), mul(sub(X0, 0.453), sub(sub(sub(1.904, add(X2, X1)), add(X1, X1)), sub(X1, 0.973)))), sub(X2, 0.923)), sub(sub(X2, X2), 0.195)), X2), sub(X1, X0)), 0.195)))), X2), 0.195)))"
+    code = parse(code)
+    code = "(0.5 + 0.2*a + 0.3*b - 0.2*(a*b))*(1 - 0.3*c - 0.1*c**2) + 0.1*(1 - (d - 0.5)**2)"
+    simpli = sympy.simplify(code)
     print(simpli)
-    expre = InfToPre(simpli)
-    expre.transform()
-    print(expre.prefix)
-    print()
+    #expre = InfToPre(simpli)
+    #expre.transform()
+    #print(expre.prefix)
+    #print()

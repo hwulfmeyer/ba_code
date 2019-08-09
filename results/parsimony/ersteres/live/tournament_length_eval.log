@@ -1,0 +1,8 @@
+	Median Size: 5.000e+00    Max Size: 3.700e+01    Median Score: 0.360        Std Score: 0.40288      Min RMSE: 1.631e-02    Max Score: 0.972      	 tournament_length    parsimony: 0.0007
+	Median Size: 7.000e+00    Max Size: 4.300e+01    Median Score: 0.646        Std Score: 0.39741      Min RMSE: 1.383e-02    Max Score: 0.980      	 tournament_length    parsimony: 0.0004
+	Median Size: 3.100e+01    Max Size: 8.300e+01    Median Score: 0.860        Std Score: 25.19910     Min RMSE: 1.205e-02    Max Score: 0.985      	 tournament_length    parsimony: 0.0001
+	Median Size: 3.600e+01    Max Size: 1.130e+02    Median Score: 0.904        Std Score: 0.43305      Min RMSE: 1.232e-02    Max Score: 0.984      	 tournament_length    parsimony: 7e-05
+	Median Size: 6.500e+01    Max Size: 2.650e+02    Median Score: 0.938        Std Score: 0.44434      Min RMSE: 9.719e-03    Max Score: 0.990      	 tournament_length    parsimony: 4e-05
+	Median Size: 1.160e+02    Max Size: 2.790e+02    Median Score: 0.937        Std Score: 0.57898      Min RMSE: 8.999e-03    Max Score: 0.991      	 tournament_length    parsimony: 1e-05
+	Median Size: 1.640e+02    Max Size: 3.770e+02    Median Score: 0.903        Std Score: 0.38489      Min RMSE: 4.682e-03    Max Score: 0.998      	 tournament_length    parsimony: 7e-06
+	Median Size: 2.030e+02    Max Size: 5.690e+02    Median Score: 0.702        Std Score: 5.32547      Min RMSE: 6.260e-03    Max Score: 0.996      	 tournament_length    parsimony: 4e-06

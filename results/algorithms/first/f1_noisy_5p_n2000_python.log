@@ -1,0 +1,5 @@
+~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
+0.787       0.00377        0.783       0.00585        5.032e-02       4.471e-04          5.056e-02       6.807e-04          33.00       10.00          9.350e+02       3.530e+03          gp_len_eplexF1 <>             
+0.779       0.01924        0.763       0.03536        5.083e-02       2.192e-03          5.334e-02       3.907e-03          45.00       27.00          8.798e+04       4.805e+06          gp_len_tour <>                
+0.795       0.02250        0.757       0.11303        4.900e-02       2.656e-03          5.401e-02       1.174e-02          113.00      55.00          1.256e+09       1.805e+12          pgp_len_tour <>               
+0.794       0.01648        0.778       0.02755        4.907e-02       1.955e-03          5.164e-02       3.158e-03          113.00      98.00          8.494e+03       5.362e+05          pgp_kom_tour <>               

@@ -19,3 +19,6 @@ print(np.round(test2, decimals=2))
 
 plt.bar(x=toursize, height=test2, width=0.3)
 plt.show()
+
+
+print("{:0.19f}".format(9e-16))

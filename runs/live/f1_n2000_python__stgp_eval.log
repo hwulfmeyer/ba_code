@@ -1,6 +1,0 @@
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.932       0.00000        0.927       0.00000        2.548e-02       0.000e+00          2.619e-02       0.000e+00          111.00      0.00           6.512e+04       0.000e+00          stgp <> tour11                
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.914       0.00000        0.906       0.00000        2.841e-02       0.000e+00          3.009e-02       0.000e+00          99.00       0.00           1.926e+04       0.000e+00          stgp <> tour11                
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.983       0.00000        0.980       0.00000        1.288e-02       0.000e+00          1.391e-02       0.000e+00          73.00       0.00           6.180e+03       0.000e+00          stgp <> tour11                

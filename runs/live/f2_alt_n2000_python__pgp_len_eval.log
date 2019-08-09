@@ -1,7 +1,0 @@
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.998       0.00000        0.998       0.00000        2.148e-02       0.000e+00          2.180e-02       0.000e+00          24.00       0.00           5.761e+04       0.000e+00          pgp_len <> tour11             
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.999       0.00000        0.999       0.00000        2.141e-02       0.000e+00          2.120e-02       0.000e+00          23.00       0.00           5.433e+01       0.000e+00          pgp_len <> tour11             
-~|R2@Train  IQR|R2@Train   ~|R2@Test   IQR|R2@Test    ~|RMSE@Train    IQR|RMSE@Train     ~|RMSE@Test     IQR|RMSE@Test      ~|Length    IQR|Length     ~|Kommenda      IQR|Kommenda       Config                        
-0.999       0.00000        0.999       0.00000        2.141e-02       0.000e+00          2.120e-02       0.000e+00          23.00       0.00           5.433e+01       0.000e+00          pgp_len <> tour11             
